@@ -1,8 +1,9 @@
 # TODOs
 - [x] Clean dates
-- [x] Join datasets
+- [x] Join missing_report
 - [x] Make profiles
 - [x] Make pairplot
+- [x] Join shift_report
 - [ ] Group location data and make use of ZIP code
 - [ ] Generate synthetic data for missing values
   - Make it group specific (for positive/negative samples)
