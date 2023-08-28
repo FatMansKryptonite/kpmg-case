@@ -4,7 +4,7 @@ SEED = 0
 
 
 def main():
-    data = get_clean_data(False)
+    data = get_clean_data()
 
 
 if __name__ == '__main__':

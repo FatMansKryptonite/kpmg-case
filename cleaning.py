@@ -69,19 +69,10 @@ def merge_missing(data: dict) -> dict:
     return data
 
 
-def make_profiles(data: dict, location: str = 'profiles') -> None:
-    for key in data.keys():
-        prof = ProfileReport(data[key])
-        prof.to_file(output_file=f'{location}/{key}.html')
-
-
-def get_clean_data(generate_profiles: bool = False) -> dict:
+def get_clean_data() -> dict:
     data = get_data()
     data = clean_data(data)
     data = merge_missing(data)
-
-    if generate_profiles:
-        make_profiles(data)
 
     return data
 
