@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
 import os
+import json
 
 DATA_FOLDER = 'ml_test_case_martians'
+CITY_COUNTRY_MAP_LOCATION = 'utils/city_country_map.json'
 
 
 def get_data() -> dict:
@@ -36,7 +38,13 @@ def clean_data_fin(df: pd.DataFrame) -> pd.DataFrame:
     for key in ['date_of_birth', 'last_seen']:
         df[key] = pd.to_datetime(df[key])
 
+    with open(CITY_COUNTRY_MAP_LOCATION) as file:
+        city_country_map = json.loads(file.read())
+    inverted_dict = {country: key for key, cities in city_country_map.items() for country in cities}
+    df['country_of_origin'] = df['city_of_origin'].replace(inverted_dict)
+
     return df
+
 
 def clean_shift_report(df: pd.DataFrame) -> pd.DataFrame:
     df['date'] = pd.to_datetime(df['date'])

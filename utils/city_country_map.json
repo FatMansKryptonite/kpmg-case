@@ -1,0 +1,22 @@
+{
+  "AU": [
+    "Brisbane",
+    "Sydney",
+    "Melbourne"
+  ],
+  "CA": [
+    "Toronto",
+    "Vancouver",
+    "Montreal"
+  ],
+  "GB": [
+    "Manchester",
+    "Birmingham",
+    "London"
+  ],
+  "US": [
+    "Seattle",
+    "New York",
+    "Los Angeles"
+  ]
+}
