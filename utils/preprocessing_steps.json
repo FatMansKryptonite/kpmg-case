@@ -1,0 +1,22 @@
+{
+  "exclude": [
+    "full_name",
+    "city_of_origin",
+    "missing",
+    "date"
+  ],
+  "one_hot_encode": [
+    "sex",
+    "profession",
+    "country_of_origin",
+    "hairdresser",
+    "counselor",
+    "psychologist",
+    "doctor",
+    "dentist"
+  ],
+  "to_numerical": [
+    "date_of_birth",
+    "last_seen"
+  ]
+}

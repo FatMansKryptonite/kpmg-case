@@ -5,7 +5,7 @@
 - [x] Make pairplot
 - [x] Join shift_report
 - [x] Group location data and make use of ZIP code
-- [ ] __Handle categorical in random forest__
+- [x] Handle categorical in random forest
 - [ ] Generate synthetic data for missing values
   - Make it group specific (for positive/negative samples)
 
