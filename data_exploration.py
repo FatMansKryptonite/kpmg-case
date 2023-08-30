@@ -9,11 +9,21 @@ def make_profiles(data: dict, location: str = 'results/profiles') -> None:
         prof.to_file(output_file=f'{location}/{key}.html')
 
 
-def make_pairwise_plot(data: dict, key: str = 'data_train_fin', location: str = 'results/pairplots') -> None:
+def make_pairwise_plot(data: dict,
+                       group_by: str = 'missing',
+                       key: str = 'data_train_fin',
+                       location: str = 'results/pairplots') -> None:
     df = data[key]
 
-    g = df.groupby('missing')
+    # Balance missing
+    if not group_by == 'missing':
+        g = df.groupby('missing')
+        df = g.apply(lambda x: x.sample(g.size().min()).reset_index(drop=True))
+
+    # Balance Classes
+    g = df.groupby(group_by)
     df = g.apply(lambda x: x.sample(g.size().min()).reset_index(drop=True))
 
-    pairplot(df, hue='missing')
-    plt.savefig(f'{location}/{key}.pdf', bbox_inches='tight')
+
+    pairplot(df, hue=group_by)
+    plt.savefig(f'{location}/{key}_{group_by}.pdf', bbox_inches='tight')
