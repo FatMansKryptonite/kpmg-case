@@ -22,6 +22,6 @@
 
 
 # Results
-- Anthony Vonnegut is abducting short heavy people for his sick little experiments...
+- Anthony Vonnegut is abducting short, heavy people for his sick little experiments...
 
 # Further work
