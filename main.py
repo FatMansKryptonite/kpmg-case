@@ -10,8 +10,9 @@ from sklearn.ensemble import RandomForestClassifier
 from utils import balance_x_and_y, shuffle_x_and_y
 
 SEED = 0
-EXPLORE = False
-EVALUATE = False
+EXPLORE = True
+EVALUATE = True
+SHAP = True
 
 
 def explore(data: dict) -> None:
@@ -20,10 +21,11 @@ def explore(data: dict) -> None:
         make_pairwise_plot(data, group_by=variable)
 
 
-def evaluate(model: RandomForestClassifier, X: pd.DataFrame, y: pd.Series, name: str):
+def evaluate(model: RandomForestClassifier, X: pd.DataFrame, y: pd.Series, name: str, shap: bool = False):
     print(f'{name} score: {model.score(X, y)}')
     make_roc(model, X, y)
-    make_shap_plots(model, X)
+    if shap:
+        make_shap_plots(model, X)
 
 
 def main():
@@ -43,21 +45,31 @@ def main():
     model = train_random_forest(X_train, y_train)
 
     if EVALUATE:
-        evaluate(model, X_test, y_test)
+        evaluate(model, X_train, y_train, name='Train', shap=SHAP)
+        evaluate(model, X_test, y_test, name='Test', shap=SHAP)
 
-    # Predict
-    y_predicted = model.predict(X)
+    # Predict ALL
+    y_predicted = model.predict_proba(X)[:, 1]
     data['data_train_fin']['missing_predicted'] = y_predicted
     data['data_train_fin'].sort_values('missing_predicted',
                                        ascending=False,
                                        inplace=True)
 
-    # Predict new
-    y_new = model.predict(X_new)
-    data['data_test_fin']['missing_predicted'] = y_new
+    # Predict TEST
+    df_test = X_test.copy()
+    df_test['missing'] = y_test
+    df_test['missing_predicted'] = model.predict_proba(X_test)[:, 1]
+    data['data_test_fin'] = df_test
     data['data_test_fin'].sort_values('missing_predicted',
                                       ascending=False,
                                       inplace=True)
+
+    # Predict NEW
+    y_new = model.predict_proba(X_new)[:, 1]
+    data['data_new_fin']['missing_predicted'] = y_new
+    data['data_new_fin'].sort_values('missing_predicted',
+                                     ascending=False,
+                                     inplace=True)
 
     # Close all plots for tidiness
     plt.close('all')

@@ -22,7 +22,6 @@
 
 
 # Results
-- Short, heavy people are abducted to a greater degree.
+- Anthony Vonnegut is abducting short heavy people for his sick little experiments...
 
 # Further work
-- Further investigate the roles of the on duty personnel.

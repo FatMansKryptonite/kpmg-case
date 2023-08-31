@@ -57,7 +57,7 @@ def clean_data(data: dict) -> dict:
         data[key] = data[key].replace({'nan': np.nan})
         data[key] = data[key].dropna()
 
-        if key in ['data_train_fin', 'data_test_fin']:
+        if key in ['data_train_fin', 'data_new_fin']:
             data[key] = clean_data_fin(data[key])
         elif key == 'shift_report':
             data['shift_report'] = clean_shift_report(data['shift_report'])
@@ -71,7 +71,7 @@ def merge_missing(data: dict) -> dict:
     missing_df = data['missing_report']
     missing_df['full_name'] = missing_df[['first_name', 'last_name']].agg(' '.join, axis=1)
 
-    for key in ['data_train_fin', 'data_test_fin']:
+    for key in ['data_train_fin', 'data_new_fin']:
         df = data[key].merge(missing_df[['full_name', 'missing']],
                              how='left',
                              on='full_name')
@@ -86,7 +86,7 @@ def merge_missing(data: dict) -> dict:
 def merge_on_duty(data: dict) -> dict:
     on_duty_df = data['shift_report']
 
-    for key in ['data_train_fin', 'data_test_fin']:
+    for key in ['data_train_fin', 'data_new_fin']:
         df = data[key].merge(on_duty_df,
                              how='left',
                              left_on='last_seen',

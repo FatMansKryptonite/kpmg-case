@@ -39,7 +39,8 @@ def convert_to_numerical(X: pd.DataFrame) -> pd.DataFrame:
 
 
 def get_x_and_y(data: dict) -> (pd.DataFrame, pd.Series):
-    df = pd.concat(list(data.values()))  # I need to do this to ensure similar one-hot encoding
+    df = pd.concat([data['data_train_fin'],
+                    data['data_new_fin']])  # I need to do this to ensure similar one-hot encoding
 
     X, y = select_cols(df)
     X = one_hot_encode_x(X)
