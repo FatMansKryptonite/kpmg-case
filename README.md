@@ -7,7 +7,7 @@
 - [x] Group location data and make use of ZIP code
 - [x] Handle categorical in random forest
 - [x] There are no doctors in the test set.....
-- [ ] __Balance dataset!!__
+- [x] __Balance dataset!!__
 - [ ] Generate synthetic data for missing values
   - Make it group specific (for positive/negative samples)
 

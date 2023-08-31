@@ -52,3 +52,5 @@ def get_x_and_y(data: dict) -> (pd.DataFrame, pd.Series):
     y = y.iloc[:train_len]
 
     return X, y, X_new, y_new
+
+

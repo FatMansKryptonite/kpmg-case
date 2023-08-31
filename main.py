@@ -7,7 +7,9 @@ from preprocessing import get_x_and_y
 from evaluation import make_roc, make_shap_plots
 from data_exploration import make_profiles, make_pairwise_plot
 from sklearn.ensemble import RandomForestClassifier
+from utils import balance_x_and_y, shuffle_x_and_y
 
+SEED = 0
 EXPLORE = False
 EVALUATE = False
 
@@ -30,10 +32,14 @@ def main():
     if EXPLORE:
         explore(data)
 
+    # Make X and y
     X, y, X_new, y_new = get_x_and_y(data)
-    X_train, y_train = X[:int(len(X)/2)], y[:int(len(X)/2)]
-    X_test, y_test = X[int(len(X)/2):], y[int(len(X)/2):]
+    X_balanced, y_balanced = balance_x_and_y(X, y)
+    X_balanced, y_balanced = shuffle_x_and_y(X_balanced, y_balanced, SEED)
+    X_train, y_train = X_balanced[:int(len(X)/2)], y_balanced[:int(len(X)/2)]
+    X_test, y_test = X_balanced[int(len(X)/2):], y_balanced[int(len(X)/2):]
 
+    # Train model
     model = train_random_forest(X_train, y_train)
 
     if EVALUATE:
@@ -42,16 +48,16 @@ def main():
     # Predict
     y_predicted = model.predict(X)
     data['data_train_fin']['missing_predicted'] = y_predicted
-    data['data_train_fin'] = data['data_train_fin'].sort_values('missing_predicted',
-                                                                ascending=False,
-                                                                inplace=True)
+    data['data_train_fin'].sort_values('missing_predicted',
+                                       ascending=False,
+                                       inplace=True)
 
     # Predict new
     y_new = model.predict(X_new)
     data['data_test_fin']['missing_predicted'] = y_new
-    data['data_test_fin'] = data['data_test_fin'].sort_values('missing_predicted',
-                                                              ascending=False,
-                                                              inplace=True)
+    data['data_test_fin'].sort_values('missing_predicted',
+                                      ascending=False,
+                                      inplace=True)
 
     # Close all plots for tidiness
     plt.close('all')
